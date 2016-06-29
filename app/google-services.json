@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1001026710163",
+    "firebase_url": "https://project-3045068562131470766.firebaseio.com",
+    "project_id": "project-3045068562131470766",
+    "storage_bucket": "project-3045068562131470766.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1001026710163:android:4f7b2ab3e8a2738f",
+        "android_client_info": {
+          "package_name": "co.com.firefly.daviviendatrade"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1001026710163-qlbohijcq2mkupjt007o33cq143qcv9n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDt99c1rmEDRNVOZPHFoMLIecP9F38epjk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
