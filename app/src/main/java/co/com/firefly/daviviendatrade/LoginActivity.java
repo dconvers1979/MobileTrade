@@ -52,7 +52,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * TODO: remove after connecting to a real authentication system.
      */
     private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "dclaverde@hotmail.com:password", "bar@example.com:world"
+            "dclaverde@hotmail.com:password", "raquel.canon@firefly-e.com:password"
     };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -338,13 +338,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             if (success) {
 
                 FirebaseReference reference = FirebaseReference.getInstance();
-
-                System.out.println("-------------------");
-                System.out.println("-------------------");
-                System.out.println("-------------------");
-                System.out.println(reference);
-                System.out.println("-------------------");
-                System.out.println("-------------------");
 
                 reference.loginFirebase(mEmail,mPassword);
 

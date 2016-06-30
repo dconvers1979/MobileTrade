@@ -14,27 +14,30 @@ public class Equity {
 
     private String equity;
     private String value;
-    public String uid;
     private Map<String, Boolean> stars = new HashMap<>();
-    public int starCount = 0;
+    private int starCount = 0;
+    private String percentaje;
+    private String spread;
     public Equity(){
 
     }
 
-    public Equity(String uid, String equity, String value){
-        this.uid = uid;
+    public Equity(String equity, String value, String percentaje, String spread){
         this.equity = equity;
         this.value = value;
+        this.percentaje = percentaje;
+        this.spread = spread;
     }
 
     // [START post_to_map]
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("uid", uid);
         result.put("equity", equity);
         result.put("value", value);
         result.put("stars", stars);
+        result.put("spread", spread);
+        result.put("percentaje", percentaje);
 
         return result;
     }
@@ -64,11 +67,27 @@ public class Equity {
         this.stars = stars;
     }
 
-    public String getUid() {
-        return uid;
+    public int getStarCount() {
+        return starCount;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
+    public void setStarCount(int starCount) {
+        this.starCount = starCount;
+    }
+
+    public String getPercentaje() {
+        return percentaje;
+    }
+
+    public void setPercentaje(String percentaje) {
+        this.percentaje = percentaje;
+    }
+
+    public String getSpread() {
+        return spread;
+    }
+
+    public void setSpread(String spread) {
+        this.spread = spread;
     }
 }

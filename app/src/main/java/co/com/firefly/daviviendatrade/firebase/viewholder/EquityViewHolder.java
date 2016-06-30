@@ -27,10 +27,10 @@ public class EquityViewHolder extends RecyclerView.ViewHolder {
         numStarsView = (TextView) itemView.findViewById(R.id.post_num_stars);
     }
 
-    public void bindToPost(Equity equity, View.OnClickListener starClickListener) {
+    public void bindToEquity(Equity equity, View.OnClickListener starClickListener) {
         equityView.setText(equity.getEquity());
         equityValueView.setText(equity.getValue());
-        numStarsView.setText(String.valueOf(equity.starCount));
+        numStarsView.setText(String.valueOf(equity.getStarCount()));
 
         starView.setOnClickListener(starClickListener);
     }

@@ -2,6 +2,7 @@ package co.com.firefly.daviviendatrade;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -49,6 +50,12 @@ public class StockListingActivity extends AppCompatActivity {
         mRecycler = (RecyclerView) findViewById(R.id.messages_list);
         mRecycler.setHasFixedSize(true);
 
+        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+        itemAnimator.setAddDuration(1000);
+        itemAnimator.setRemoveDuration(1000);
+        mRecycler.setItemAnimator(itemAnimator);
+
+
         // Set up Layout Manager, reverse layout
         mManager = new LinearLayoutManager(this);
         mManager.setReverseLayout(true);
@@ -82,17 +89,21 @@ public class StockListingActivity extends AppCompatActivity {
                     viewHolder.starView.setImageResource(R.drawable.ic_toggle_star_outline_24);
                 }
 
+                if (model.getSpread()!=null && model.getSpread().contains("-")){
+                    viewHolder.equityValueView.setTextColor(getResources().getColor(R.color.red));
+                } else {
+                    viewHolder.equityValueView.setTextColor(getResources().getColor(R.color.green));
+                }
+
                 // Bind Post to ViewHolder, setting OnClickListener for the star button
-                viewHolder.bindToPost(model, new View.OnClickListener() {
+                viewHolder.bindToEquity(model, new View.OnClickListener() {
                     @Override
                     public void onClick(View starView) {
                         // Need to write to both places the post is stored
                         DatabaseReference globalPostRef = mDatabase.child("equity").child(postRef.getKey());
-                        DatabaseReference userPostRef = mDatabase.child("user-equity").child(model.uid).child(postRef.getKey());
 
                         // Run two transactions
                         onStarClicked(globalPostRef);
-                        onStarClicked(userPostRef);
                     }
                 });
             }
@@ -113,11 +124,11 @@ public class StockListingActivity extends AppCompatActivity {
 
                 if (p.getStars().containsKey(getUid())) {
                     // Unstar the post and remove self from stars
-                    p.starCount = p.starCount - 1;
+                    p.setStarCount(p.getStarCount() - 1);
                     p.getStars().remove(getUid());
                 } else {
                     // Star the post and add self to stars
-                    p.starCount = p.starCount + 1;
+                    p.setStarCount(p.getStarCount() + 1);
                     p.getStars().put(getUid(), true);
                 }
 
@@ -154,7 +165,7 @@ public class StockListingActivity extends AppCompatActivity {
         // Last 100 posts, these are automatically the 100 most recent
         // due to sorting by push() keys
         Query recentPostsQuery = databaseReference.child("equity")
-                .limitToFirst(100);
+                .limitToFirst(10);
         // [END recent_posts_query]
 
         return recentPostsQuery;
@@ -181,7 +192,7 @@ public class StockListingActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             // Write new post
-                            writeNewPost(userId, equity, value);
+                            writeNewPost(equity, value);
                         }
 
                         // Finish this Activity, back to the stream
@@ -201,11 +212,11 @@ public class StockListingActivity extends AppCompatActivity {
     }
 
     // [START write_fan_out]
-    private void writeNewPost(String userId, String equity, String value) {
+    private void writeNewPost(String equity, String value) {
         // Create new post at /user-posts/$userid/$postid and at
         // /posts/$postid simultaneously
         String key = mDatabase.child("equity").push().getKey();
-        Equity post = new Equity(userId, equity, value);
+        Equity post = new Equity(equity, value, "0.25","10");
         Map<String, Object> equityValues = post.toMap();
 
         Map<String, Object> childUpdates = new HashMap<>();
