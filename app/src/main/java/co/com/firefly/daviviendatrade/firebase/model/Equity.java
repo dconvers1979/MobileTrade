@@ -3,6 +3,7 @@ package co.com.firefly.daviviendatrade.firebase.model;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +11,7 @@ import java.util.Map;
  * Created by toshiba on 29/06/2016.
  */
 @IgnoreExtraProperties
-public class Equity {
+public class Equity implements Serializable{
 
     private String equity;
     private String value;

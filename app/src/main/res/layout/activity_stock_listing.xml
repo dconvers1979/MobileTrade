@@ -9,16 +9,25 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:focusable="false"
+    android:clickable="false"
     tools:context="co.com.firefly.daviviendatrade.StockListingActivity">
 
-    <GridLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:focusable="false"
+        android:clickable="false">
+
+    <LinearLayout
         android:id="@+id/star_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
+        android:focusable="false"
+        android:clickable="false"
         android:layout_gravity="center_horizontal"
-        android:columnCount="3"
-        android:rowCount="1"
         android:orientation="horizontal">
 
         <ImageView
@@ -46,32 +55,32 @@
 
         </android.support.design.widget.TextInputLayout>
 
-        <ImageView
+        <Button
             android:id="@+id/equitySearch"
             android:layout_gravity="right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="5dp"
-            android:background="?attr/selectableItemBackground"
-            android:src="@mipmap/ic_search" />
+            android:background="@mipmap/ic_search" />
 
-        </GridLayout>
+        </LinearLayout>
+
+        <Button
+            android:text="Crear equity"
+            android:layout_width="wrap_content"
+            android:layout_gravity="bottom"
+            android:onClick="newEquity"
+            android:layout_height="wrap_content" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/messages_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:clipToPadding="false"
         android:padding="5dp"
         android:scrollbars="vertical"
         tools:listitem="@layout/item_post" />
 
-    <Button
-        android:text="Crear equity"
-        android:layout_width="wrap_content"
-        android:layout_gravity="bottom"
-        android:onClick="newEquity"
-        android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
 </LinearLayout>

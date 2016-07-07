@@ -1,11 +1,15 @@
 package co.com.firefly.daviviendatrade;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -18,11 +22,13 @@ import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
-
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import co.com.firefly.daviviendatrade.firebase.MsgIdHandler;
 import co.com.firefly.daviviendatrade.firebase.model.Equity;
 import co.com.firefly.daviviendatrade.firebase.model.User;
 import co.com.firefly.daviviendatrade.firebase.viewholder.EquityViewHolder;
@@ -30,11 +36,14 @@ import co.com.firefly.daviviendatrade.firebase.viewholder.EquityViewHolder;
 
 public class StockListingActivity extends AppCompatActivity {
 
-    private DatabaseReference mDatabase;
+    public DatabaseReference mDatabase;
 
     private FirebaseRecyclerAdapter<Equity, EquityViewHolder> mAdapter;
     private RecyclerView mRecycler;
     private LinearLayoutManager mManager;
+
+    private Button equitySearch;
+    private AutoCompleteTextView searchEquityText;
 
     public StockListingActivity(){
 
@@ -46,6 +55,30 @@ public class StockListingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_stock_listing);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        equitySearch = (Button) findViewById(R.id.equitySearch);
+        searchEquityText = (AutoCompleteTextView) findViewById(R.id.searchEquityText);
+
+        equitySearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //  Launch PostDetailActivity TODO buscar equities
+                if(searchEquityText!=null && searchEquityText.getText()!=null && !searchEquityText.getText().toString().equals("")){
+
+                    FirebaseMessaging fm = FirebaseMessaging.getInstance();
+                    RemoteMessage rm = new RemoteMessage.Builder(getUid()).setMessageId(MsgIdHandler.getInstance().getMessageId())
+                            .addData("action","searchEquity")
+                            .addData("equity",searchEquityText.getText().toString())
+                            .build();
+
+                    fm.send(rm);
+                } else {
+
+                    searchEquityText.setError(getResources().getString(R.string.prompt_searchError));
+                }
+
+            }
+        });
 
         mRecycler = (RecyclerView) findViewById(R.id.messages_list);
         mRecycler.setHasFixedSize(true);
@@ -66,6 +99,7 @@ public class StockListingActivity extends AppCompatActivity {
         Query postsQuery = getQuery(mDatabase);
         mAdapter = new FirebaseRecyclerAdapter<Equity, EquityViewHolder>(Equity.class, R.layout.item_post,
                 EquityViewHolder.class, postsQuery) {
+
             @Override
             protected void populateViewHolder(final EquityViewHolder viewHolder, final Equity model, final int position) {
                 final DatabaseReference postRef = getRef(position);
@@ -75,10 +109,9 @@ public class StockListingActivity extends AppCompatActivity {
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //  Launch PostDetailActivity TODO ir a detalle del equity
-                        //Intent intent = new Intent(StockListingActivity.this, PostDetailActivity.class);
-                        //intent.putExtra(PostDetailActivity.EXTRA_POST_KEY, postKey);
-                        //startActivity(intent);
+                        Intent intent = new Intent(StockListingActivity.this, EquityDetail.class);
+                        intent.putExtra(EquityDetail.EQUITY_NAME, model);
+                        startActivity(intent);
                     }
                 });
 
@@ -110,10 +143,36 @@ public class StockListingActivity extends AppCompatActivity {
         };
         mRecycler.setAdapter(mAdapter);
 
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT ) {
+
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                //Remove swiped item from list and notify the RecyclerView
+
+                EquityViewHolder holder = (EquityViewHolder)viewHolder;
+                Toast.makeText(StockListingActivity.this, "Position:" + holder.getAdapterPosition(),
+                        Toast.LENGTH_SHORT).show();
+
+                //TODO borrrar de favoritos de usuario en firebase
+
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+
+
+
+        itemTouchHelper.attachToRecyclerView(mRecycler);
+
     }
 
     // [START post_stars_transaction]
-    private void onStarClicked(DatabaseReference postRef) {
+    public void onStarClicked(DatabaseReference postRef) {
         postRef.runTransaction(new Transaction.Handler() {
             @Override
             public Transaction.Result doTransaction(MutableData mutableData) {
@@ -192,7 +251,7 @@ public class StockListingActivity extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             // Write new post
-                            writeNewPost(equity, value);
+                            writeNewEquity(equity, value);
                         }
 
                         // Finish this Activity, back to the stream
@@ -212,7 +271,7 @@ public class StockListingActivity extends AppCompatActivity {
     }
 
     // [START write_fan_out]
-    private void writeNewPost(String equity, String value) {
+    public void writeNewEquity(String equity, String value) {
         // Create new post at /user-posts/$userid/$postid and at
         // /posts/$postid simultaneously
         String key = mDatabase.child("equity").push().getKey();
