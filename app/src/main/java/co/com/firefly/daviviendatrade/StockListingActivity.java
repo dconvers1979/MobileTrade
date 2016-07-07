@@ -8,8 +8,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -42,7 +44,7 @@ public class StockListingActivity extends AppCompatActivity {
     private RecyclerView mRecycler;
     private LinearLayoutManager mManager;
 
-    private Button equitySearch;
+    private ImageButton equitySearch;
     private AutoCompleteTextView searchEquityText;
 
     public StockListingActivity(){
@@ -56,8 +58,12 @@ public class StockListingActivity extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        equitySearch = (Button) findViewById(R.id.equitySearch);
+        equitySearch = (ImageButton) findViewById(R.id.equitySearch);
         searchEquityText = (AutoCompleteTextView) findViewById(R.id.searchEquityText);
+
+        String[] dummyEquities = getResources().getStringArray(R.array.dummy_equities);
+        ArrayAdapter<String> equitySearchAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,dummyEquities);
+        searchEquityText.setAdapter(equitySearchAdapter);
 
         equitySearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,13 +71,8 @@ public class StockListingActivity extends AppCompatActivity {
                 //  Launch PostDetailActivity TODO buscar equities
                 if(searchEquityText!=null && searchEquityText.getText()!=null && !searchEquityText.getText().toString().equals("")){
 
-                    FirebaseMessaging fm = FirebaseMessaging.getInstance();
-                    RemoteMessage rm = new RemoteMessage.Builder(getUid()).setMessageId(MsgIdHandler.getInstance().getMessageId())
-                            .addData("action","searchEquity")
-                            .addData("equity",searchEquityText.getText().toString())
-                            .build();
+                    newEquity(searchEquityText.getText().toString());
 
-                    fm.send(rm);
                 } else {
 
                     searchEquityText.setError(getResources().getString(R.string.prompt_searchError));
@@ -230,8 +231,7 @@ public class StockListingActivity extends AppCompatActivity {
         return recentPostsQuery;
     }
 
-    public void newEquity(View view){
-        final String equity = "ECOP";
+    public void newEquity(final String equity){
         final String value = "1400";
 
         final String userId = getUid();
@@ -284,6 +284,11 @@ public class StockListingActivity extends AppCompatActivity {
         mDatabase.updateChildren(childUpdates);
     }
     // [END write_fan_out]
+
+    @Override
+    public void onBackPressed() {
+
+    }
 
 
 }

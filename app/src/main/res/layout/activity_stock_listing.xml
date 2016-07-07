@@ -55,7 +55,7 @@
 
         </android.support.design.widget.TextInputLayout>
 
-        <Button
+        <ImageButton
             android:id="@+id/equitySearch"
             android:layout_gravity="right"
             android:layout_width="wrap_content"
@@ -63,13 +63,6 @@
             android:background="@mipmap/ic_search" />
 
         </LinearLayout>
-
-        <Button
-            android:text="Crear equity"
-            android:layout_width="wrap_content"
-            android:layout_gravity="bottom"
-            android:onClick="newEquity"
-            android:layout_height="wrap_content" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/messages_list"

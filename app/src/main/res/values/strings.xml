@@ -22,7 +22,19 @@
     <string name="top_news">Principales Noticias</string>
     <string name="equity_detail">Detalle Acción</string>
     <string name="action_buy">Comprar</string>
+    <string name="user_balance">Mi Saldo: </string>
+    <string name="buy_quantity">Cantidad:</string>
+    <string name="buy_market_price">Precio Ofertado:</string>
+    <string name="buy_total">Total:</string>
+    <string name="buy_confirm_title">Confirmacion</string>
+    <string name="buy_confirm">Esta seguro que quiere comprar ?</string>
+    <string name="yes">Si</string>
+    <string name="no">No</string>
+    <string name="buying">Compra</string>
+    <string name="selling">Venta</string>
+
     <!-- Demo Dummy strings -->
+    <string name="dummy_user_portfolio_value">$250,056,225.00</string>
     <string name="dummy_date">10-10-2016</string>
     <string name="dummy_hour">10:45 am</string>
     <string name="dummy_news_1">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat</string>
@@ -30,4 +42,14 @@
     <string name="dummy_news_3">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione</string>
     <string name="dummy_news_4">Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</string>
     <string name="dummy_news_5">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit,Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil </string>
+    <array name="dummy_equities">
+        <item>HBL</item>
+        <item>FIREFLY</item>
+        <item>ARGOS</item>
+        <item>ECOPETROL</item>
+        <item>ETB</item>
+        <item>EEB</item>
+        <item>AVAL</item>
+        <item>GOOGLE</item>
+    </array>
 </resources>

@@ -38,6 +38,8 @@ public class EquityDetail extends AppCompatActivity {
     private LinearLayout chartView;
     private GraphicalView mChartView;
 
+    private Button buyEquity;
+
     private RecyclerView mRecyclerViewNews;
     private RecyclerView.Adapter mAdapterNews;
     private RecyclerView.LayoutManager mLayoutManagerNews;
@@ -51,10 +53,26 @@ public class EquityDetail extends AppCompatActivity {
         equityNameDetail = (TextView) findViewById(R.id.equityNameDetail);
         chartView = (LinearLayout) findViewById(R.id.equityChart);
 
+        buyEquity = (Button) findViewById(R.id.detail_equity_buy);
+
+        buyEquity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EquityDetail.this,BuyEquity.class);
+
+                intent.putExtra(BuyEquity.EQUITY_TO_BUY,equity);
+
+                startActivity(intent);
+
+            }
+        });
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             this.equity = (Equity) extras.getSerializable(EQUITY_NAME);
             equityNameDetail.setText(this.equity.getEquity()+" - "+this.equity.getValue());
+        }else{
+            finish();
         }
 
         boolean raising = true;

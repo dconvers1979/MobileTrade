@@ -115,7 +115,9 @@
 
             </LinearLayout>
 
-            <Button
+            <ImageButton
+                android:src="@mipmap/ic_signin"
+                android:background="@color/white_pure"
                 android:id="@+id/email_sign_in_button"
                 style="?android:textAppearanceSmall"
                 android:layout_width="wrap_content"

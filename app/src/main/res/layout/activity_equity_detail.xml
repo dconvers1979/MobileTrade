@@ -79,6 +79,7 @@
         </LinearLayout>
 
         <Button
+            android:id="@+id/detail_equity_buy"
             android:textColor="#FFA500"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:text="@string/action_buy"
