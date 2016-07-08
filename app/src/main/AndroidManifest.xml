@@ -38,7 +38,11 @@
         <activity android:name=".EquityDetail" />
         <activity android:name="org.achartengine.GraphicalActivity" />
         <activity android:name=".BuyEquity" />
-        <activity android:name=".OrderStatusActivity"></activity>
+        <activity android:name=".OrderStatusActivity" />
+        <activity
+            android:name=".SellEquityActivity"
+            android:label="@string/title_activity_sell_equity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

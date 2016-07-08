@@ -159,6 +159,10 @@ public class StockListingActivity extends AppCompatActivity {
                 Toast.makeText(StockListingActivity.this, "Position:" + holder.getAdapterPosition(),
                         Toast.LENGTH_SHORT).show();
 
+                Intent intent = new Intent(StockListingActivity.this,SellEquityActivity.class);
+
+                startActivity(intent);
+
                 //TODO borrrar de favoritos de usuario en firebase
 
             }
