@@ -1,17 +1,24 @@
 package co.com.firefly.daviviendatrade;
 
 import android.content.Intent;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
+
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -24,19 +31,17 @@ import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.RemoteMessage;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import co.com.firefly.daviviendatrade.firebase.MsgIdHandler;
 import co.com.firefly.daviviendatrade.firebase.model.Equity;
 import co.com.firefly.daviviendatrade.firebase.model.User;
 import co.com.firefly.daviviendatrade.firebase.viewholder.EquityViewHolder;
 
 
-public class StockListingActivity extends AppCompatActivity {
+public class StockListingActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     public DatabaseReference mDatabase;
 
@@ -155,13 +160,7 @@ public class StockListingActivity extends AppCompatActivity {
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
                 //Remove swiped item from list and notify the RecyclerView
 
-                EquityViewHolder holder = (EquityViewHolder)viewHolder;
-                Toast.makeText(StockListingActivity.this, "Position:" + holder.getAdapterPosition(),
-                        Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(StockListingActivity.this,SellEquityActivity.class);
-
-                startActivity(intent);
 
                 //TODO borrrar de favoritos de usuario en firebase
 
@@ -170,9 +169,25 @@ public class StockListingActivity extends AppCompatActivity {
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
 
-
-
         itemTouchHelper.attachToRecyclerView(mRecycler);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        TextView userLoggedEmail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.user_logged_email);
+
+        if(FirebaseAuth.getInstance().getCurrentUser().getEmail()!=null){
+            userLoggedEmail.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        }
 
     }
 
@@ -291,7 +306,38 @@ public class StockListingActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } /*else {
+            super.onBackPressed();
+        }*/
+    }
 
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.menu_balance) {
+
+        } else if (id == R.id.menu_portfolio) {
+
+        } else if (id == R.id.menu_help) {
+
+        } else if (id == R.id.menu_config) {
+
+        } else if (id == R.id.menu_security) {
+
+        } else if (id == R.id.menu_logout) {
+            FirebaseAuth.getInstance().signOut();
+            finish();
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 
 
