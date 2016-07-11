@@ -34,12 +34,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".StockListingActivity" android:label="@string/equity_list_title"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".StockListingActivity"
+            android:label="@string/equity_list_title"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".EquityDetail" />
         <activity android:name="org.achartengine.GraphicalActivity" />
         <activity android:name=".BuyEquity" />
         <activity android:name=".OrderStatusActivity" />
+        <activity android:name=".PortfolioDetailActivity"></activity>
     </application>
 
 </manifest>

@@ -42,6 +42,8 @@
             android:orientation="horizontal"
             android:gravity="center_horizontal"
             android:layout_gravity="center_horizontal"
+            android:minHeight="150dp"
+            android:minWidth="150dp"
             android:layout_width="600dp"
             android:layout_height="600dp"/>
 

@@ -1,6 +1,12 @@
 package co.com.firefly.daviviendatrade;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -18,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +58,8 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
 
     private ImageButton equitySearch;
     private AutoCompleteTextView searchEquityText;
+
+    private Paint p = new Paint();
 
     public StockListingActivity(){
 
@@ -149,7 +158,7 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
         };
         mRecycler.setAdapter(mAdapter);
 
-        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT ) {
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT ) {
 
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
@@ -158,18 +167,58 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                //Remove swiped item from list and notify the RecyclerView
+                int position = viewHolder.getAdapterPosition();
 
+                if (swipeDir == ItemTouchHelper.LEFT){
+                    //TODO borrar
+                } else {
+                    EquityViewHolder holder = (EquityViewHolder)viewHolder;
 
+                    Intent intent = new Intent(StockListingActivity.this , BuyEquity.class);
 
-                //TODO borrrar de favoritos de usuario en firebase
+                    intent.putExtra(BuyEquity.EQUITY_TO_BUY,holder.equity);
 
+                    startActivity(intent);
+
+                }
+
+            }
+
+            @Override
+            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+
+                Bitmap icon;
+                if(actionState == ItemTouchHelper.ACTION_STATE_SWIPE){
+
+                    View itemView = viewHolder.itemView;
+                    float height = (float) itemView.getBottom() - (float) itemView.getTop();
+                    float width = height / 3;
+
+                    if(dX > 0){
+                        p.setColor(Color.parseColor("#388E3C"));
+                        RectF background = new RectF((float) itemView.getLeft(), (float) itemView.getTop(), dX,(float) itemView.getBottom());
+                        c.drawRect(background,p);
+                        icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_buy);
+                        RectF icon_dest = new RectF((float) itemView.getLeft() + width ,(float) itemView.getTop() + width,(float) itemView.getLeft()+ 2*width,(float)itemView.getBottom() - width);
+                        c.drawBitmap(icon,null,icon_dest,p);
+                    } else {
+                        p.setColor(Color.parseColor("#D32F2F"));
+                        RectF background = new RectF((float) itemView.getRight() + dX, (float) itemView.getTop(),(float) itemView.getRight(), (float) itemView.getBottom());
+                        c.drawRect(background,p);
+                        icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_delete);
+                        RectF icon_dest = new RectF((float) itemView.getRight() - 2*width ,(float) itemView.getTop() + width,(float) itemView.getRight() - width,(float)itemView.getBottom() - width);
+                        c.drawBitmap(icon,null,icon_dest,p);
+                    }
+                }
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
             }
         };
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
 
         itemTouchHelper.attachToRecyclerView(mRecycler);
+
+        //Menu
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -323,7 +372,9 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
         if (id == R.id.menu_balance) {
 
         } else if (id == R.id.menu_portfolio) {
+            Intent intent = new Intent(this, PortfolioDetailActivity.class);
 
+            startActivity(intent);
         } else if (id == R.id.menu_help) {
 
         } else if (id == R.id.menu_config) {
@@ -331,7 +382,7 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
         } else if (id == R.id.menu_security) {
 
         } else if (id == R.id.menu_logout) {
-            FirebaseAuth.getInstance().signOut();
+            //FirebaseAuth.getInstance().signOut();
             finish();
         }
 
