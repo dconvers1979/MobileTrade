@@ -40,6 +40,19 @@
     <string name="menu_security">Seguridad</string>
     <string name="menu_logout">Salir</string>
 
+    <string name="sell_quantity">Cantidad:</string>
+    <string name="sell_market_price">Precio Venta:</string>
+    <string name="sell_total">Total:</string>
+    <string name="sell_confirm_title">Confirmacion</string>
+    <string name="sell_confirm">Esta seguro que quiere vender ?</string>
+
+    <string name="title_activity_sell_equity">SellEquityActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
 
     <!-- Demo Dummy strings -->
     <string name="dummy_user_portfolio_value">$250,056,225.00</string>
@@ -61,10 +74,5 @@
         <item>AVAL</item>
         <item>GOOGLE</item>
     </array>
-    <string name="title_activity_sell_equity">SellEquityActivity</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="action_settings">Settings</string>
 </resources>

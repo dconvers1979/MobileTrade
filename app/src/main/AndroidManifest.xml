@@ -42,7 +42,8 @@
         <activity android:name="org.achartengine.GraphicalActivity" />
         <activity android:name=".BuyEquity" />
         <activity android:name=".OrderStatusActivity" />
-        <activity android:name=".PortfolioDetailActivity"></activity>
+        <activity android:name=".PortfolioDetailActivity" />
+        <activity android:name=".SellEquityActivity"></activity>
     </application>
 
 </manifest>

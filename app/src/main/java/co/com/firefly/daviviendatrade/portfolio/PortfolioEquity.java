@@ -1,9 +1,11 @@
 package co.com.firefly.daviviendatrade.portfolio;
 
+import java.io.Serializable;
+
 /**
  * Created by toshiba on 11/07/2016.
  */
-public class PortfolioEquity {
+public class PortfolioEquity implements Serializable {
 
     private String equityName;
     private Double equityBuyingValue;

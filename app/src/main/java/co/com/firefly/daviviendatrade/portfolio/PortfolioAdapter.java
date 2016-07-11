@@ -40,6 +40,8 @@ public class PortfolioAdapter extends RecyclerView.Adapter<PortfolioViewHolder> 
         // - replace the contents of the view with that element
         holder.bindToEquity(this.mDataset[position]);
 
+        holder.itemView.setOnClickListener(new PortfolioOnClickListener(holder.itemView,this.mDataset[position]));
+
     }
 
     // Return the size of your dataset (invoked by the layout manager)
