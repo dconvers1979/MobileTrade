@@ -12,16 +12,10 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:gravity="right"
-        android:layout_gravity="right"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-
-        <ImageView
-            android:src="@mipmap/ic_shoping_cart"
-            android:layout_width="wrap_content"
-            android:layout_gravity="left"
-            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/sell_equity_name"
@@ -41,13 +35,34 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:text="@string/user_balance"
+            android:text="@string/sell_market_price"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/user_balance"
+            android:id="@+id/market_price_sell"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="@string/sell_available_quantity"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/sell_available_quantity"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

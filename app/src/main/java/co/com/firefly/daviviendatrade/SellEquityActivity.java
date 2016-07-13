@@ -20,7 +20,8 @@ public class SellEquityActivity extends AppCompatActivity {
 
     private PortfolioEquity equity;
     private TextView equityName;
-    private TextView userBalance;
+    private TextView marketSellPrice;
+    private TextView availableQuantity;
     private EditText sellQuantity;
     private EditText sellPrice;
     private TextView sellTotal;
@@ -40,26 +41,24 @@ public class SellEquityActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sell_equity);
 
         equityName = (TextView) findViewById(R.id.sell_equity_name);
-        userBalance = (TextView) findViewById(R.id.user_balance);
+        marketSellPrice = (TextView) findViewById(R.id.market_price_sell);
         sellQuantity = (EditText) findViewById(R.id.sell_quantity);
         sellPrice = (EditText) findViewById(R.id.sell_market_price);
         sellTotal = (TextView) findViewById(R.id.sell_total);
         sellAction = (ImageButton) findViewById(R.id.sell_action);
+        availableQuantity = (TextView) findViewById(R.id.sell_available_quantity);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             this.equity = (PortfolioEquity) extras.getSerializable(EQUITY_TO_SELL);
             String moneyString = formatter.format(this.equity.getEquityCurrentValue());
-            equityName.setText(this.equity.getEquityName()+" - "+moneyString);
+            equityName.setText(this.equity.getEquityName());
             this.sellPrice.setText(""+this.equity.getEquityCurrentValue());
+            marketSellPrice.setText(moneyString);
+            availableQuantity.setText(""+this.equity.getEquityQuantity());
         }else{
             finish();
         }
-
-
-        String moneyString = formatter.format(dummyUserBalance);//TODO dummy value
-
-        userBalance.setText(moneyString);//TODO dummy value
 
         sellPrice.addTextChangedListener(new TextWatcher() {
 

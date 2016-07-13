@@ -45,6 +45,7 @@
     <string name="sell_total">Total:</string>
     <string name="sell_confirm_title">Confirmacion</string>
     <string name="sell_confirm">Esta seguro que quiere vender ?</string>
+    <string name="sell_available_quantity">Cantidad disponible:</string>
 
     <string name="title_activity_sell_equity">SellEquityActivity</string>
 

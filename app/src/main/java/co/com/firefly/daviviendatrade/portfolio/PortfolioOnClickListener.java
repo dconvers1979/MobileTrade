@@ -1,11 +1,8 @@
 package co.com.firefly.daviviendatrade.portfolio;
 
 import android.content.Intent;
-import android.support.design.widget.NavigationView;
-import android.view.MenuItem;
 import android.view.View;
 
-import co.com.firefly.daviviendatrade.EquityDetail;
 import co.com.firefly.daviviendatrade.SellEquityActivity;
 
 /**

@@ -11,8 +11,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:padding="10dp">
+        android:gravity="center_horizontal">
 
         <LinearLayout
             android:orientation="horizontal"
