@@ -3,12 +3,13 @@ package co.com.firefly.daviviendatrade;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -28,10 +29,10 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +56,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * TODO: remove after connecting to a real authentication system.
      */
     private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "dclaverde@hotmail.com:password", "raquel.canon@firefly-e.com:password"
+            "dclaverde@hotmail.com:password", "raquel.canon@firefly-e.com:password", "a@a.com:123456789"
     };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -183,10 +184,31 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             cancel = true;
         }
 
+        boolean networkFlag = false;
+
+        ConnectivityManager conMgr = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo i = conMgr.getActiveNetworkInfo();
+        if (i == null){
+            cancel = true;
+            networkFlag = true;
+        } else if (!i.isConnected()){
+            cancel = true;
+            networkFlag = true;
+        } else if (!i.isAvailable()){
+            cancel = true;
+            networkFlag = true;
+        }
+
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
             focusView.requestFocus();
+
+            if(networkFlag){
+                Toast.makeText(LoginActivity.this, "Error: No hay conexion a internet" ,
+                        Toast.LENGTH_LONG).show();
+            }
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.

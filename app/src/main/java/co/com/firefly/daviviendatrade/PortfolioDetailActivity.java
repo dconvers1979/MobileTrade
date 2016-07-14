@@ -1,18 +1,30 @@
 package co.com.firefly.daviviendatrade;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.View;
 
+import co.com.firefly.daviviendatrade.firebase.viewholder.EquityViewHolder;
 import co.com.firefly.daviviendatrade.portfolio.PortfolioAdapter;
 import co.com.firefly.daviviendatrade.portfolio.PortfolioEquity;
+import co.com.firefly.daviviendatrade.portfolio.PortfolioViewHolder;
 
 public class PortfolioDetailActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerViewPortfolio;
     private RecyclerView.Adapter mAdapterPortfolio;
     private RecyclerView.LayoutManager mLayoutManagerPortfolio;
+    private Paint p = new Paint();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +63,56 @@ public class PortfolioDetailActivity extends AppCompatActivity {
         equity4.setEquityCurrentValue(new Double(5000));
 
         PortfolioEquity equities[] = {equity1,equity2,equity3,equity4};//TODO hardcoded equities
+
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                int position = viewHolder.getAdapterPosition();
+
+                if (swipeDir == ItemTouchHelper.LEFT){
+                    PortfolioViewHolder holder = (PortfolioViewHolder)viewHolder;
+
+                    Intent intent = new Intent(PortfolioDetailActivity.this , SellEquityActivity.class);
+
+                    intent.putExtra(SellEquityActivity.EQUITY_TO_SELL,holder.equity);
+
+                    startActivity(intent);
+                }
+
+            }
+
+            @Override
+            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+
+                Bitmap icon;
+                if(actionState == ItemTouchHelper.ACTION_STATE_SWIPE){
+
+                    View itemView = viewHolder.itemView;
+                    float height = (float) itemView.getBottom() - (float) itemView.getTop();
+                    float width = height / 3;
+
+                    if(dX < 0) {
+                        p.setColor(Color.parseColor("#388E3C"));
+                        RectF background = new RectF((float) itemView.getRight() + dX, (float) itemView.getTop(),(float) itemView.getRight(), (float) itemView.getBottom());
+                        c.drawRect(background,p);
+                        icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_sell);
+                        RectF icon_dest = new RectF((float) itemView.getRight() - 2*width ,(float) itemView.getTop() + width,(float) itemView.getRight() - width,(float)itemView.getBottom() - width);
+                        c.drawBitmap(icon,null,icon_dest,p);
+                    }
+                }
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+
+        itemTouchHelper.attachToRecyclerView(mRecyclerViewPortfolio);
 
         // specify an adapter (see also next example)
         mAdapterPortfolio = new PortfolioAdapter(equities);

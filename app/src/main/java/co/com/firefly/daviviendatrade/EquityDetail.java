@@ -116,7 +116,7 @@ public class EquityDetail extends AppCompatActivity {
             baseColor = Color.RED;
         }
 
-        equityNameDetail.setTextColor(baseColor);
+        //equityNameDetail.setTextColor(baseColor);
 
         int[] x = { 1,2,3,4,5,6,7,8 };
         int[] income = { 2000,2500,2700,3000,2800,3500,3700,3800};

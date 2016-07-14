@@ -18,6 +18,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -236,6 +239,7 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
 
         if(FirebaseAuth.getInstance().getCurrentUser().getEmail()!=null){
             userLoggedEmail.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+
         }
 
     }
@@ -262,6 +266,7 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
 
                 // Set value and report transaction success
                 mutableData.setValue(p);
+
                 return Transaction.success(mutableData);
             }
 
@@ -269,8 +274,8 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
             public void onComplete(DatabaseError databaseError, boolean b,
                                    DataSnapshot dataSnapshot) {
                 // Transaction completed
-                Toast.makeText(StockListingActivity.this, "postTransaction:onComplete:" + databaseError,
-                        Toast.LENGTH_SHORT).show();
+                /*Toast.makeText(StockListingActivity.this, "postTransaction:onComplete:" + databaseError,
+                        Toast.LENGTH_SHORT).show();*/
             }
         });
     }
@@ -329,9 +334,9 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        Toast.makeText(StockListingActivity.this,
+                        /*Toast.makeText(StockListingActivity.this,
                                 "getUser:onCancelled" + databaseError.toException(),
-                                Toast.LENGTH_SHORT).show();
+                                Toast.LENGTH_SHORT).show();*/
                     }
                 });
         // [END single_value_read]
@@ -382,14 +387,13 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
         } else if (id == R.id.menu_security) {
 
         } else if (id == R.id.menu_logout) {
-            //FirebaseAuth.getInstance().signOut();
-            finish();
+            FirebaseAuth.getInstance().signOut();
+            finishAffinity();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 
 }

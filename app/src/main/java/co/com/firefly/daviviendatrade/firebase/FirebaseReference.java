@@ -13,6 +13,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import co.com.firefly.daviviendatrade.firebase.model.User;
+import co.com.firefly.daviviendatrade.util.FiretradeException;
 
 /**
  * Created by toshiba on 28/06/2016.
@@ -57,7 +58,7 @@ public class FirebaseReference {
         return true;
     }
 
-    public void signIn(AppCompatActivity context) {
+    public void signIn(final AppCompatActivity context) {
         if (email==null || email.equals("")) {
             return;
         }
@@ -72,13 +73,14 @@ public class FirebaseReference {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
+                    public void onComplete(@NonNull Task<AuthResult> task){
 
                         if (task.isSuccessful()) {
                             onAuthSuccess(task.getResult().getUser());
                         } else {
-                            Toast.makeText(FirebaseReference.this.context.getApplicationContext(), "Sign In Failed",
+                            Toast.makeText(FirebaseReference.this.context.getApplicationContext(), "Error autenticando",
                                     Toast.LENGTH_SHORT).show();
+
                         }
                     }
                 });

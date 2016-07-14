@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FireTrade</string>
+    <string name="app_name">fireTrade</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Contraseña</string>
     <string name="prompt_token">Token</string>
@@ -23,6 +23,7 @@
     <string name="equity_detail">Detalle Acción</string>
     <string name="action_buy">Comprar</string>
     <string name="user_balance">Mi Saldo: </string>
+    <string name="user_valued_portfolio">Mi Portafolio: </string>
     <string name="buy_quantity">Cantidad:</string>
     <string name="buy_market_price">Precio Ofertado:</string>
     <string name="buy_total">Total:</string>
@@ -60,11 +61,11 @@
     <string name="dummy_user_balance">$105,056,225.00</string>
     <string name="dummy_date">10-10-2016</string>
     <string name="dummy_hour">10:45 am</string>
-    <string name="dummy_news_1">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat</string>
-    <string name="dummy_news_2">Uis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit </string>
-    <string name="dummy_news_3">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione</string>
-    <string name="dummy_news_4">Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</string>
-    <string name="dummy_news_5">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit,Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil </string>
+    <string name="dummy_news_1">Lorem ipsum dolor sit amet, consectetur adipiscing elit</string>
+    <string name="dummy_news_2">Uis nostrud exercitation ullamco laboris nisi ut aliquip </string>
+    <string name="dummy_news_3">Nemo enim ipsam voluptatem quia voluptas sit aspernatur </string>
+    <string name="dummy_news_4">Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet</string>
+    <string name="dummy_news_5">Nemo enim ipsam voluptatem quia voluptas sit aspernatur </string>
     <array name="dummy_equities">
         <item>HBL</item>
         <item>FIREFLY</item>

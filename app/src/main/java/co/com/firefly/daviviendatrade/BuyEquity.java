@@ -21,6 +21,7 @@ public class BuyEquity extends AppCompatActivity {
 
     private Equity equity;
     private TextView equityName;
+    private TextView equityValue;
     private TextView userBalance;
     private EditText buyQuantity;
     private EditText buyPrice;
@@ -41,6 +42,7 @@ public class BuyEquity extends AppCompatActivity {
         setContentView(R.layout.activity_buy_equity);
 
         equityName = (TextView) findViewById(R.id.buy_equity_name);
+        equityValue = (TextView) findViewById(R.id.buy_equity_value);
         userBalance = (TextView) findViewById(R.id.user_balance);
         buyQuantity = (EditText) findViewById(R.id.buy_quantity);
         buyPrice = (EditText) findViewById(R.id.buy_market_price);
@@ -51,7 +53,8 @@ public class BuyEquity extends AppCompatActivity {
         if (extras != null) {
             this.equity = (Equity) extras.getSerializable(EQUITY_TO_BUY);
             String moneyString = formatter.format(new Double(this.equity.getValue().trim()));
-            equityName.setText(this.equity.getEquity()+" - "+moneyString);
+            equityName.setText(this.equity.getEquity());
+            equityValue.setText(moneyString);
             this.buyPrice.setText(this.equity.getValue());
         }else{
             finish();
