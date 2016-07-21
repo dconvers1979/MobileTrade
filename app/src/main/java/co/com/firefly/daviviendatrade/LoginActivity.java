@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.com.firefly.daviviendatrade.firebase.FirebaseReference;
+import co.com.firefly.daviviendatrade.services.ServiceInvoker;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -99,9 +100,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+
     }
 
     private void populateAutoComplete() {
+
+        //TODO temp
+
+        /*ServiceInvoker getNameService = new ServiceInvoker(this);
+        getNameService.execute();*/
+
+        //TODO temp
         if (!mayRequestContacts()) {
             return;
         }

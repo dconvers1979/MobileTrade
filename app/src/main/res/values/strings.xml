@@ -71,13 +71,13 @@
     <string name="dummy_news_4">Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet</string>
     <string name="dummy_news_5">Nemo enim ipsam voluptatem quia voluptas sit aspernatur </string>
     <array name="dummy_equities">
-        <item>HBL</item>
+        <item>TWR</item>
+        <item>COLCAP</item>
+        <item>ALV</item>
+        <item>PBR</item>
+        <item>APL</item>
+        <item>EC</item>
         <item>FIREFLY</item>
-        <item>ARGOS</item>
-        <item>ECOPETROL</item>
-        <item>ETB</item>
-        <item>EEB</item>
-        <item>AVAL</item>
         <item>GOOGLE</item>
     </array>
 
