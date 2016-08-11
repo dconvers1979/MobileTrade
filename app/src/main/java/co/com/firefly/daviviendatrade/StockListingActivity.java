@@ -237,7 +237,7 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
 
         TextView userLoggedEmail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.user_logged_email);
 
-        if(FirebaseAuth.getInstance().getCurrentUser().getEmail()!=null){
+        if(FirebaseAuth.getInstance().getCurrentUser()!= null && FirebaseAuth.getInstance().getCurrentUser().getEmail()!=null){
             userLoggedEmail.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
 
         }

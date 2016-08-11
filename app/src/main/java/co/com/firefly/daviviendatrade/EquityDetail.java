@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -39,7 +40,7 @@ public class EquityDetail extends AppCompatActivity {
     private LinearLayout chartView;
     private GraphicalView mChartView;
 
-    private Button buyEquity;
+    private ImageButton buyEquity;
 
     private RecyclerView mRecyclerViewNews;
     private RecyclerView.Adapter mAdapterNews;
@@ -54,7 +55,7 @@ public class EquityDetail extends AppCompatActivity {
         equityNameDetail = (TextView) findViewById(R.id.equityNameDetail);
         chartView = (LinearLayout) findViewById(R.id.equityChart);
 
-        buyEquity = (Button) findViewById(R.id.detail_equity_buy);
+        buyEquity = (ImageButton) findViewById(R.id.detail_equity_buy);
 
         buyEquity.setOnClickListener(new View.OnClickListener() {
             @Override

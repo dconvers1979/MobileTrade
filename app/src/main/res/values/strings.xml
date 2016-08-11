@@ -14,11 +14,11 @@
     <string name="prompt_footer">"Vigilado Superfinanciera</string>
     <string name="prompt_copyright">Powered by firefly-e.com</string>
     <string name="prompt_searchError">Campo requerido para la busqueda</string>
-    <string name="chart_day">Día</string>
-    <string name="chart_week">Semana</string>
-    <string name="chart_month">Mes</string>
-    <string name="chart_trimester">Trimestre</string>
-    <string name="chart_semester">Semestre</string>
+    <string name="chart_day">1d</string>
+    <string name="chart_week">7d</string>
+    <string name="chart_month">30d</string>
+    <string name="chart_trimester">90d</string>
+    <string name="chart_semester">180d</string>
     <string name="top_news">Principales Noticias</string>
     <string name="equity_detail">Detalle Acción</string>
     <string name="action_buy">Comprar</string>
@@ -34,6 +34,13 @@
     <string name="buying">Compra</string>
     <string name="selling">Venta</string>
     <string name="equity_list_title">Listado de acciones</string>
+    <string name="equity_detail_title">Detalle de acciones</string>
+    <string name="portfolio_title">Detalle portafolio</string>
+    <string name="buy_euity_title">Comprar acción</string>
+    <string name="order_status_title">Estado ordenes</string>
+    <string name="sell_equity_title">Vender acción</string>
+
+
     <string name="welcome">Bienvenido</string>
 
     <string name="menu_help">Ayuda</string>
@@ -71,14 +78,24 @@
     <string name="dummy_news_4">Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet</string>
     <string name="dummy_news_5">Nemo enim ipsam voluptatem quia voluptas sit aspernatur </string>
     <array name="dummy_equities">
-        <item>TWR</item>
-        <item>COLCAP</item>
-        <item>ALV</item>
-        <item>PBR</item>
-        <item>APL</item>
-        <item>EC</item>
-        <item>FIREFLY</item>
-        <item>GOOGLE</item>
+        <item>PFBCOLOM</item>
+        <item>ECOPETROL</item>
+        <item>PFDAVVNDA</item>
+        <item>BCOLOMBIA</item>
+        <item>PFAVAL</item>
+        <item>MINEROS</item>
+        <item>EXITO</item>
+        <item>ODINSA</item>
+        <item>EEB</item>
+        <item>BVC</item>
+        <item>OCCIDENTE</item>
+        <item>PFCEMARGOS</item>
+        <item>CNEC</item>
+        <item>ISA</item>
+        <item>FABRICATO</item>
+        <item>ETB</item>
+        <item>ISAGEN</item>
+        <item>PFAVH</item>
     </array>
 
 </resources>

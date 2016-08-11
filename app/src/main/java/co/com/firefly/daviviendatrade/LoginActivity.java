@@ -38,7 +38,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.com.firefly.daviviendatrade.firebase.FirebaseReference;
-import co.com.firefly.daviviendatrade.services.ServiceInvoker;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -101,6 +100,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
+        mEmailView.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_usuario,0,0,0);
+        mPasswordView.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_password,0,0,0);
 
     }
 
