@@ -111,10 +111,6 @@
         <ImageView
             android:src="@mipmap/ic_bought"
             android:layout_gravity="right"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
             android:gravity="right"
             android:layout_weight="1"
             android:layout_width="0dp"
@@ -122,20 +118,12 @@
 
         <TextView
             android:text="1"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
 
         <TextView
             android:text="$10,600.00"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content" />
@@ -143,10 +131,6 @@
         <ImageView
             android:src="@mipmap/ic_ok"
             android:layout_gravity="right"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
             android:gravity="right"
             android:layout_weight="1"
             android:layout_width="0dp"
@@ -170,10 +154,6 @@
 
         <TextView
             android:text="ARGOS"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
@@ -181,10 +161,6 @@
         <ImageView
             android:src="@mipmap/ic_sold"
             android:layout_gravity="right"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
             android:gravity="right"
             android:layout_weight="1"
             android:layout_width="0dp"
@@ -192,20 +168,12 @@
 
         <TextView
             android:text="5"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content" />
 
         <TextView
             android:text="$5,600.00"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content" />
@@ -213,10 +181,6 @@
         <ImageView
             android:src="@mipmap/ic_pending"
             android:layout_gravity="right"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
             android:gravity="right"
             android:layout_weight="1"
             android:layout_width="0dp"
@@ -240,10 +204,6 @@
 
         <TextView
             android:text="ECOPETROL"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
@@ -251,10 +211,6 @@
         <ImageView
             android:src="@mipmap/ic_bought"
             android:layout_gravity="right"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
             android:gravity="right"
             android:layout_weight="1"
             android:layout_width="0dp"
@@ -262,20 +218,12 @@
 
         <TextView
             android:text="100"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content" />
 
         <TextView
             android:text="$1,400.00"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content" />
@@ -283,10 +231,6 @@
         <ImageView
             android:src="@mipmap/ic_ok"
             android:layout_gravity="right"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
             android:gravity="right"
             android:layout_weight="1"
             android:layout_width="0dp"
@@ -309,10 +253,6 @@
 
         <TextView
             android:text="ECOPETROL"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content" />
@@ -320,10 +260,6 @@
         <ImageView
             android:src="@mipmap/ic_sold"
             android:layout_gravity="right"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
             android:gravity="right"
             android:layout_weight="1"
             android:layout_width="0dp"
@@ -331,20 +267,12 @@
 
         <TextView
             android:text="200"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content" />
 
         <TextView
             android:text="$1,600.00"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content" />
@@ -352,10 +280,6 @@
         <ImageView
             android:src="@mipmap/ic_delete"
             android:layout_gravity="right"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
             android:gravity="right"
             android:layout_weight="1"
             android:layout_width="0dp"
@@ -378,10 +302,6 @@
 
         <TextView
             android:text="FIREFLY"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content" />
@@ -389,10 +309,6 @@
         <ImageView
             android:src="@mipmap/ic_bought"
             android:layout_gravity="right"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
             android:gravity="right"
             android:layout_weight="1"
             android:layout_width="0dp"
@@ -400,20 +316,12 @@
 
         <TextView
             android:text="20"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content" />
 
         <TextView
             android:text="$50,600.00"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content" />
@@ -421,10 +329,6 @@
         <ImageView
             android:src="@mipmap/ic_pending"
             android:layout_gravity="right"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
             android:gravity="right"
             android:layout_weight="1"
             android:layout_width="0dp"

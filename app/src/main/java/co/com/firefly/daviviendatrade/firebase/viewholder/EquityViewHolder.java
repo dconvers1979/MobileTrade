@@ -17,11 +17,13 @@ public class EquityViewHolder extends RecyclerView.ViewHolder {
     public TextView equityValueView;
     public ImageView starView;
     public TextView numStarsView;
+    public View view;
     public Equity equity;
 
     public EquityViewHolder(View itemView) {
         super(itemView);
 
+        view = itemView;
         equityView = (TextView) itemView.findViewById(R.id.equity_name);
         equityValueView = (TextView) itemView.findViewById(R.id.equity_value);
         starView = (ImageView) itemView.findViewById(R.id.star);

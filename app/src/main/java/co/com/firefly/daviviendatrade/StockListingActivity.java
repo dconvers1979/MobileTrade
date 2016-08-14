@@ -23,6 +23,7 @@ import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
@@ -58,6 +59,10 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
     private FirebaseRecyclerAdapter<Equity, EquityViewHolder> mAdapter;
     private RecyclerView mRecycler;
     private LinearLayoutManager mManager;
+
+    private FirebaseRecyclerAdapter<Equity, EquityViewHolder> mAdapterFav;
+    private RecyclerView mRecyclerFav;
+    private LinearLayoutManager mManagerFav;
 
     private ImageButton equitySearch;
     private AutoCompleteTextView searchEquityText;
@@ -101,10 +106,10 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
         mRecycler = (RecyclerView) findViewById(R.id.messages_list);
         mRecycler.setHasFixedSize(true);
 
-        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+        /*RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         itemAnimator.setAddDuration(1000);
         itemAnimator.setRemoveDuration(1000);
-        mRecycler.setItemAnimator(itemAnimator);
+        mRecycler.setItemAnimator(itemAnimator);*/
 
 
         // Set up Layout Manager, reverse layout
@@ -114,7 +119,7 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
         mRecycler.setLayoutManager(mManager);
 
         // Set up FirebaseRecyclerAdapter with the Query
-        Query postsQuery = getQuery(mDatabase);
+        Query postsQuery = getQuery(mDatabase, false);
         mAdapter = new FirebaseRecyclerAdapter<Equity, EquityViewHolder>(Equity.class, R.layout.item_post,
                 EquityViewHolder.class, postsQuery) {
 
@@ -136,6 +141,81 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
                 // Determine if the current user has liked this post and set UI accordingly
                 if (model.getStars().containsKey(getUid())) {
                     viewHolder.starView.setImageResource(R.drawable.ic_toggle_star_24);
+                } else {
+                    //viewHolder.starView.setImageResource(R.drawable.ic_toggle_star_outline_24);
+                    viewHolder.view.setVisibility(View.GONE);
+
+                    RecyclerView.LayoutParams param = (RecyclerView.LayoutParams)viewHolder.view.getLayoutParams();
+                    param.height = 0;
+                    param.width = 0;
+
+                    viewHolder.view.setLayoutParams(param);
+                    return;
+                }
+
+                if (model.getSpread()!=null && model.getSpread().contains("-")){
+                    viewHolder.equityValueView.setTextColor(getResources().getColor(R.color.red));
+                } else {
+                    viewHolder.equityValueView.setTextColor(getResources().getColor(R.color.green));
+                }
+
+                // Bind Post to ViewHolder, setting OnClickListener for the star button
+                viewHolder.bindToEquity(model, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View starView) {
+                        // Need to write to both places the post is stored
+                        DatabaseReference globalPostRef = mDatabase.child("equity").child(postRef.getKey());
+
+                        // Run two transactions
+                        onStarClicked(globalPostRef);
+                    }
+                });
+            }
+        };
+        mRecycler.setAdapter(mAdapter);
+
+        mRecyclerFav = (RecyclerView) findViewById(R.id.favorites_list);
+        mRecyclerFav.setHasFixedSize(true);
+
+        //mRecyclerFav.setItemAnimator(itemAnimator);
+
+
+        // Set up Layout Manager, reverse layout
+        mManagerFav = new LinearLayoutManager(this);
+        mManagerFav.setReverseLayout(true);
+        mManagerFav.setStackFromEnd(true);
+        mRecyclerFav.setLayoutManager(mManagerFav);
+
+        Query postsQueryFav = getQuery(mDatabase, true);
+
+        mAdapterFav = new FirebaseRecyclerAdapter<Equity, EquityViewHolder>(Equity.class, R.layout.item_post,
+                EquityViewHolder.class, postsQueryFav) {
+
+            @Override
+            protected void populateViewHolder(final EquityViewHolder viewHolder, final Equity model, final int position) {
+                final DatabaseReference postRef = getRef(position);
+
+                // Set click listener for the whole post view
+                final String postKey = postRef.getKey();
+                viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(StockListingActivity.this, EquityDetail.class);
+                        intent.putExtra(EquityDetail.EQUITY_NAME, model);
+                        startActivity(intent);
+                    }
+                });
+
+                // Determine if the current user has liked this post and set UI accordingly
+                if (model.getStars().containsKey(getUid())) {
+                    //viewHolder.starView.setImageResource(R.drawable.ic_toggle_star_24);
+                    viewHolder.view.setVisibility(View.GONE);
+                    RecyclerView.LayoutParams param = (RecyclerView.LayoutParams)viewHolder.view.getLayoutParams();
+                    param.height = 0;
+                    param.width = 0;
+
+                    viewHolder.view.setLayoutParams(param);
+                    return;
                 } else {
                     viewHolder.starView.setImageResource(R.drawable.ic_toggle_star_outline_24);
                 }
@@ -159,7 +239,7 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
                 });
             }
         };
-        mRecycler.setAdapter(mAdapter);
+        mRecyclerFav.setAdapter(mAdapterFav);
 
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT ) {
 
@@ -217,9 +297,11 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
             }
         };
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+        ItemTouchHelper itemTouchHelperFav = new ItemTouchHelper(simpleItemTouchCallback);
 
-        itemTouchHelper.attachToRecyclerView(mRecycler);
+        itemTouchHelperFav.attachToRecyclerView(mRecyclerFav);
+
+
 
         //Menu
 
@@ -293,13 +375,16 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
-    public Query getQuery(DatabaseReference databaseReference){
-        // [START recent_posts_query]
-        // Last 100 posts, these are automatically the 100 most recent
-        // due to sorting by push() keys
-        Query recentPostsQuery = databaseReference.child("equity")
-                .limitToFirst(10);
-        // [END recent_posts_query]
+    public Query getQuery(DatabaseReference databaseReference, boolean stared){
+        Query recentPostsQuery = null;
+
+        if(stared){
+            recentPostsQuery = databaseReference.child("equity")
+                    .limitToFirst(10);
+        }else{
+            recentPostsQuery = databaseReference.child("equity")
+                    .limitToFirst(10);
+        }
 
         return recentPostsQuery;
     }
