@@ -58,7 +58,7 @@
     <LinearLayout
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -82,15 +82,15 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:gravity="right"
-            android:layout_gravity="right"
-            android:foregroundGravity="right"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:foregroundGravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/buy_equity_name"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="#FFA500"
                 android:gravity="right"
                 android:layout_width="wrap_content"
@@ -98,7 +98,7 @@
 
             <TextView
                 android:id="@+id/buy_equity_value"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="#FFA500"
                 android:gravity="right"
                 android:layout_width="wrap_content"
@@ -117,17 +117,21 @@
 
         <TextView
             android:text="@string/user_balance"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/user_balance"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
     </LinearLayout>
+
+    <Space
+        android:layout_width="1dp"
+        android:layout_height="15dp"/>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -167,13 +171,13 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/buy_total"/>
 
         <TextView
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:id="@+id/buy_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

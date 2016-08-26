@@ -13,22 +13,17 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
 import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,7 +37,6 @@ import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -69,6 +63,8 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
 
     private Paint p = new Paint();
 
+    private RelativeLayout mainListEquityHolder;
+
     public StockListingActivity(){
 
     }
@@ -77,6 +73,8 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stock_listing);
+
+        mainListEquityHolder = (RelativeLayout)findViewById(R.id.main_list_equity_holder);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -111,7 +109,6 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
         itemAnimator.setRemoveDuration(1000);
         mRecycler.setItemAnimator(itemAnimator);*/
 
-
         // Set up Layout Manager, reverse layout
         mManager = new LinearLayoutManager(this);
         mManager.setReverseLayout(true);
@@ -141,16 +138,17 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
                 // Determine if the current user has liked this post and set UI accordingly
                 if (model.getStars().containsKey(getUid())) {
                     viewHolder.starView.setImageResource(R.drawable.ic_toggle_star_24);
-                } else {
-                    //viewHolder.starView.setImageResource(R.drawable.ic_toggle_star_outline_24);
-                    viewHolder.view.setVisibility(View.GONE);
+                    /*viewHolder.view.setVisibility(View.GONE);
 
                     RecyclerView.LayoutParams param = (RecyclerView.LayoutParams)viewHolder.view.getLayoutParams();
                     param.height = 0;
                     param.width = 0;
 
                     viewHolder.view.setLayoutParams(param);
-                    return;
+                    return;*/
+                } else {
+                    viewHolder.starView.setImageResource(R.drawable.ic_toggle_star_outline_24);
+
                 }
 
                 if (model.getSpread()!=null && model.getSpread().contains("-")){
@@ -167,7 +165,8 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
                         DatabaseReference globalPostRef = mDatabase.child("equity").child(postRef.getKey());
 
                         // Run two transactions
-                        onStarClicked(globalPostRef);
+                        onStarClicked(globalPostRef, position);
+
                     }
                 });
             }
@@ -208,16 +207,18 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
 
                 // Determine if the current user has liked this post and set UI accordingly
                 if (model.getStars().containsKey(getUid())) {
-                    //viewHolder.starView.setImageResource(R.drawable.ic_toggle_star_24);
-                    viewHolder.view.setVisibility(View.GONE);
+                    viewHolder.starView.setImageResource(R.drawable.ic_toggle_star_24);
+
+                } else {
+                    viewHolder.starView.setImageResource(R.drawable.ic_toggle_star_outline_24);
+
+                    /*viewHolder.view.setVisibility(View.GONE);
                     RecyclerView.LayoutParams param = (RecyclerView.LayoutParams)viewHolder.view.getLayoutParams();
                     param.height = 0;
                     param.width = 0;
 
                     viewHolder.view.setLayoutParams(param);
-                    return;
-                } else {
-                    viewHolder.starView.setImageResource(R.drawable.ic_toggle_star_outline_24);
+                    return;*/
                 }
 
                 if (model.getSpread()!=null && model.getSpread().contains("-")){
@@ -234,7 +235,10 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
                         DatabaseReference globalPostRef = mDatabase.child("equity").child(postRef.getKey());
 
                         // Run two transactions
-                        onStarClicked(globalPostRef);
+                        onStarClicked(globalPostRef, position);
+
+                        mRecycler.invalidate();
+                        mRecyclerFav.invalidate();
                     }
                 });
             }
@@ -301,8 +305,6 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
 
         itemTouchHelperFav.attachToRecyclerView(mRecyclerFav);
 
-
-
         //Menu
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -327,7 +329,7 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
     }
 
     // [START post_stars_transaction]
-    public void onStarClicked(DatabaseReference postRef) {
+    public void onStarClicked(DatabaseReference postRef, final int index) {
         postRef.runTransaction(new Transaction.Handler() {
             @Override
             public Transaction.Result doTransaction(MutableData mutableData) {
@@ -340,6 +342,7 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
                     // Unstar the post and remove self from stars
                     p.setStarCount(p.getStarCount() - 1);
                     p.getStars().remove(getUid());
+
                 } else {
                     // Star the post and add self to stars
                     p.setStarCount(p.getStarCount() + 1);
@@ -358,6 +361,9 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
                 // Transaction completed
                 /*Toast.makeText(StockListingActivity.this, "postTransaction:onComplete:" + databaseError,
                         Toast.LENGTH_SHORT).show();*/
+
+                mRecycler.invalidate();
+                mRecyclerFav.invalidate();
             }
         });
     }
@@ -379,11 +385,9 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
         Query recentPostsQuery = null;
 
         if(stared){
-            recentPostsQuery = databaseReference.child("equity")
-                    .limitToFirst(10);
+            recentPostsQuery = databaseReference.child("equity").orderByChild("starCount").startAt(1).endAt(4);
         }else{
-            recentPostsQuery = databaseReference.child("equity")
-                    .limitToFirst(10);
+            recentPostsQuery = databaseReference.child("equity").orderByChild("starCount").startAt(0).endAt(0);
         }
 
         return recentPostsQuery;

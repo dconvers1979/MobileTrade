@@ -14,6 +14,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
+import java.text.NumberFormat;
+
 import co.com.firefly.daviviendatrade.firebase.viewholder.EquityViewHolder;
 import co.com.firefly.daviviendatrade.portfolio.PortfolioAdapter;
 import co.com.firefly.daviviendatrade.portfolio.PortfolioEquity;
@@ -42,22 +44,22 @@ public class PortfolioDetailActivity extends AppCompatActivity {
         mRecyclerViewPortfolio.setLayoutManager(mLayoutManagerPortfolio);
 
         PortfolioEquity equity1 = new PortfolioEquity();
-        equity1.setEquityName("FIREFLY");
+        equity1.setEquityName("PFBCOLOM");
         equity1.setEquityQuantity(new Integer(20));
         equity1.setEquityBuyingValue(new Double(45000));
         equity1.setEquityCurrentValue(new Double(50000));
         PortfolioEquity equity2 = new PortfolioEquity();
-        equity2.setEquityName("FIREFLY");
+        equity2.setEquityName("PFBCOLOM");
         equity2.setEquityQuantity(new Integer(40));
         equity2.setEquityBuyingValue(new Double(41000));
         equity2.setEquityCurrentValue(new Double(50000));
         PortfolioEquity equity3 = new PortfolioEquity();
-        equity3.setEquityName("ECOPETROL");
+        equity3.setEquityName("BVC");
         equity3.setEquityQuantity(new Integer(200));
         equity3.setEquityBuyingValue(new Double(3600));
         equity3.setEquityCurrentValue(new Double(1260));
         PortfolioEquity equity4 = new PortfolioEquity();
-        equity4.setEquityName("ARGOS");
+        equity4.setEquityName("ETB");
         equity4.setEquityQuantity(new Integer(300));
         equity4.setEquityBuyingValue(new Double(4500));
         equity4.setEquityCurrentValue(new Double(5000));

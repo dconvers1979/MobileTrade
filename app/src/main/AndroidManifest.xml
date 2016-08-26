@@ -28,7 +28,8 @@
 
         <activity
             android:name=".LoginActivity"
-            android:label="@string/app_name">
+            android:label=" "
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
             android:name=".StockListingActivity"

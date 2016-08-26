@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.NumberFormat;
+
 import co.com.firefly.daviviendatrade.R;
 import co.com.firefly.daviviendatrade.firebase.model.Equity;
 
@@ -31,12 +33,18 @@ public class EquityViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bindToEquity(Equity equity, View.OnClickListener starClickListener) {
+        NumberFormat format = NumberFormat.getCurrencyInstance();
         this.equity = equity;
 
         equityView.setText(equity.getEquity());
-        equityValueView.setText(equity.getValue());
         numStarsView.setText(String.valueOf(equity.getStarCount()));
 
         starView.setOnClickListener(starClickListener);
+        try{
+            equityValueView.setText(format.format(Double.valueOf(equity.getValue())));
+        }catch(Exception e){
+            equityValueView.setText(equity.getValue());
+        }
+
     }
 }

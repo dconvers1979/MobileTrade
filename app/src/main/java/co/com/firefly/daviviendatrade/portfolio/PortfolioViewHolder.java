@@ -4,6 +4,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import java.text.NumberFormat;
+
 import co.com.firefly.daviviendatrade.R;
 
 /**
@@ -30,13 +32,14 @@ public class PortfolioViewHolder extends RecyclerView.ViewHolder{
     }
 
     public void bindToEquity(PortfolioEquity equity) {
+        NumberFormat format = NumberFormat.getCurrencyInstance();
         this.equity = equity;
 
         equityName.setText(equity.getEquityName());
-        equityBuyingPrice.setText(""+equity.getEquityBuyingValue());
+        equityBuyingPrice.setText(format.format(equity.getEquityBuyingValue()));
         equityQuantity.setText(""+equity.getEquityQuantity());
-        equityCurrentPrice.setText(""+equity.getEquityCurrentValue());
-        equityCurrentTotal.setText(""+(equity.getEquityQuantity().doubleValue()*equity.getEquityCurrentValue().doubleValue()));
+        equityCurrentPrice.setText(format.format(equity.getEquityCurrentValue()));
+        equityCurrentTotal.setText(format.format((equity.getEquityQuantity().doubleValue()*equity.getEquityCurrentValue().doubleValue())));
 
     }
 
