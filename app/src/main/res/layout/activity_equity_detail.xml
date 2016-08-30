@@ -16,7 +16,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <ImageView
+            <ImageButton
+                android:background="@color/colorPrimary"
+                android:id="@+id/return_button"
                 android:src="@mipmap/ic_launcher"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -45,7 +47,8 @@
     </android.support.design.widget.AppBarLayout>
 
     <ScrollView
-        android:paddingTop="@dimen/app_header_height"
+        android:id="@+id/scroll_detail"
+        android:layout_marginTop="@dimen/app_header_height"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

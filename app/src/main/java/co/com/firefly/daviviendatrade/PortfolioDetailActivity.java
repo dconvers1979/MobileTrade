@@ -13,10 +13,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
+import android.widget.ImageButton;
 
-import java.text.NumberFormat;
-
-import co.com.firefly.daviviendatrade.firebase.viewholder.EquityViewHolder;
 import co.com.firefly.daviviendatrade.portfolio.PortfolioAdapter;
 import co.com.firefly.daviviendatrade.portfolio.PortfolioEquity;
 import co.com.firefly.daviviendatrade.portfolio.PortfolioViewHolder;
@@ -45,24 +43,24 @@ public class PortfolioDetailActivity extends AppCompatActivity {
 
         PortfolioEquity equity1 = new PortfolioEquity();
         equity1.setEquityName("PFBCOLOM");
-        equity1.setEquityQuantity(new Integer(20));
-        equity1.setEquityBuyingValue(new Double(45000));
-        equity1.setEquityCurrentValue(new Double(50000));
+        equity1.setEquityQuantity(20);
+        equity1.setEquityBuyingValue(Double.valueOf(45000));
+        equity1.setEquityCurrentValue(Double.valueOf(50000));
         PortfolioEquity equity2 = new PortfolioEquity();
         equity2.setEquityName("PFBCOLOM");
-        equity2.setEquityQuantity(new Integer(40));
-        equity2.setEquityBuyingValue(new Double(41000));
-        equity2.setEquityCurrentValue(new Double(50000));
+        equity2.setEquityQuantity(40);
+        equity2.setEquityBuyingValue(Double.valueOf(41000));
+        equity2.setEquityCurrentValue(Double.valueOf(50000));
         PortfolioEquity equity3 = new PortfolioEquity();
         equity3.setEquityName("BVC");
-        equity3.setEquityQuantity(new Integer(200));
-        equity3.setEquityBuyingValue(new Double(3600));
-        equity3.setEquityCurrentValue(new Double(1260));
+        equity3.setEquityQuantity(200);
+        equity3.setEquityBuyingValue(Double.valueOf(3600));
+        equity3.setEquityCurrentValue(Double.valueOf(1260));
         PortfolioEquity equity4 = new PortfolioEquity();
         equity4.setEquityName("ETB");
-        equity4.setEquityQuantity(new Integer(300));
-        equity4.setEquityBuyingValue(new Double(4500));
-        equity4.setEquityCurrentValue(new Double(5000));
+        equity4.setEquityQuantity(300);
+        equity4.setEquityBuyingValue(Double.valueOf(4500));
+        equity4.setEquityCurrentValue(Double.valueOf(5000));
 
         PortfolioEquity equities[] = {equity1,equity2,equity3,equity4};//TODO hardcoded equities
 
@@ -85,6 +83,8 @@ public class PortfolioDetailActivity extends AppCompatActivity {
                     intent.putExtra(SellEquityActivity.EQUITY_TO_SELL,holder.equity);
 
                     startActivity(intent);
+
+                    mAdapterPortfolio.notifyDataSetChanged();
                 }
 
             }
@@ -119,6 +119,15 @@ public class PortfolioDetailActivity extends AppCompatActivity {
         // specify an adapter (see also next example)
         mAdapterPortfolio = new PortfolioAdapter(equities);
         mRecyclerViewPortfolio.setAdapter(mAdapterPortfolio);
+
+        ImageButton returnButton = (ImageButton) findViewById(R.id.return_button);
+        returnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PortfolioDetailActivity.this, StockListingActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 

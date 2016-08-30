@@ -33,13 +33,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import co.com.firefly.daviviendatrade.firebase.model.Equity;
 import co.com.firefly.daviviendatrade.firebase.model.User;
@@ -63,8 +58,6 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
 
     private Paint p = new Paint();
 
-    private RelativeLayout mainListEquityHolder;
-
     public StockListingActivity(){
 
     }
@@ -73,8 +66,6 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stock_listing);
-
-        mainListEquityHolder = (RelativeLayout)findViewById(R.id.main_list_equity_holder);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -88,10 +79,9 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
         equitySearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //  Launch PostDetailActivity TODO buscar equities
                 if(searchEquityText!=null && searchEquityText.getText()!=null && !searchEquityText.getText().toString().equals("")){
 
-                    newEquity(searchEquityText.getText().toString());
+                    searchEquity(searchEquityText.getText().toString());
 
                 } else {
 
@@ -109,7 +99,6 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
         itemAnimator.setRemoveDuration(1000);
         mRecycler.setItemAnimator(itemAnimator);*/
 
-        // Set up Layout Manager, reverse layout
         mManager = new LinearLayoutManager(this);
         mManager.setReverseLayout(true);
         mManager.setStackFromEnd(true);
@@ -124,8 +113,7 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
             protected void populateViewHolder(final EquityViewHolder viewHolder, final Equity model, final int position) {
                 final DatabaseReference postRef = getRef(position);
 
-                // Set click listener for the whole post view
-                final String postKey = postRef.getKey();
+                //final String postKey = postRef.getKey();
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -135,21 +123,7 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
                     }
                 });
 
-                // Determine if the current user has liked this post and set UI accordingly
-                if (model.getStars().containsKey(getUid())) {
-                    viewHolder.starView.setImageResource(R.drawable.ic_toggle_star_24);
-                    /*viewHolder.view.setVisibility(View.GONE);
-
-                    RecyclerView.LayoutParams param = (RecyclerView.LayoutParams)viewHolder.view.getLayoutParams();
-                    param.height = 0;
-                    param.width = 0;
-
-                    viewHolder.view.setLayoutParams(param);
-                    return;*/
-                } else {
-                    viewHolder.starView.setImageResource(R.drawable.ic_toggle_star_outline_24);
-
-                }
+                viewHolder.starView.setImageResource(R.drawable.ic_toggle_star_outline_24);
 
                 if (model.getSpread()!=null && model.getSpread().contains("-")){
                     viewHolder.equityValueView.setTextColor(getResources().getColor(R.color.red));
@@ -157,15 +131,11 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
                     viewHolder.equityValueView.setTextColor(getResources().getColor(R.color.green));
                 }
 
-                // Bind Post to ViewHolder, setting OnClickListener for the star button
                 viewHolder.bindToEquity(model, new View.OnClickListener() {
                     @Override
                     public void onClick(View starView) {
-                        // Need to write to both places the post is stored
-                        DatabaseReference globalPostRef = mDatabase.child("equity").child(postRef.getKey());
 
-                        // Run two transactions
-                        onStarClicked(globalPostRef, position);
+                        mDatabase.child("equity").child(model.getEquity()).child(getUid()).setValue(true);
 
                     }
                 });
@@ -176,10 +146,6 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
         mRecyclerFav = (RecyclerView) findViewById(R.id.favorites_list);
         mRecyclerFav.setHasFixedSize(true);
 
-        //mRecyclerFav.setItemAnimator(itemAnimator);
-
-
-        // Set up Layout Manager, reverse layout
         mManagerFav = new LinearLayoutManager(this);
         mManagerFav.setReverseLayout(true);
         mManagerFav.setStackFromEnd(true);
@@ -194,8 +160,7 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
             protected void populateViewHolder(final EquityViewHolder viewHolder, final Equity model, final int position) {
                 final DatabaseReference postRef = getRef(position);
 
-                // Set click listener for the whole post view
-                final String postKey = postRef.getKey();
+                //final String postKey = postRef.getKey();
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -205,21 +170,7 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
                     }
                 });
 
-                // Determine if the current user has liked this post and set UI accordingly
-                if (model.getStars().containsKey(getUid())) {
-                    viewHolder.starView.setImageResource(R.drawable.ic_toggle_star_24);
-
-                } else {
-                    viewHolder.starView.setImageResource(R.drawable.ic_toggle_star_outline_24);
-
-                    /*viewHolder.view.setVisibility(View.GONE);
-                    RecyclerView.LayoutParams param = (RecyclerView.LayoutParams)viewHolder.view.getLayoutParams();
-                    param.height = 0;
-                    param.width = 0;
-
-                    viewHolder.view.setLayoutParams(param);
-                    return;*/
-                }
+                viewHolder.starView.setImageResource(R.drawable.ic_toggle_star_24);
 
                 if (model.getSpread()!=null && model.getSpread().contains("-")){
                     viewHolder.equityValueView.setTextColor(getResources().getColor(R.color.red));
@@ -227,18 +178,11 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
                     viewHolder.equityValueView.setTextColor(getResources().getColor(R.color.green));
                 }
 
-                // Bind Post to ViewHolder, setting OnClickListener for the star button
                 viewHolder.bindToEquity(model, new View.OnClickListener() {
                     @Override
                     public void onClick(View starView) {
-                        // Need to write to both places the post is stored
-                        DatabaseReference globalPostRef = mDatabase.child("equity").child(postRef.getKey());
+                        mDatabase.child("equity").child(model.getEquity()).child(getUid()).setValue(false);
 
-                        // Run two transactions
-                        onStarClicked(globalPostRef, position);
-
-                        mRecycler.invalidate();
-                        mRecyclerFav.invalidate();
                     }
                 });
             }
@@ -254,11 +198,18 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                int position = viewHolder.getAdapterPosition();
+                //int position = viewHolder.getAdapterPosition();
 
                 if (swipeDir == ItemTouchHelper.LEFT){
-                    //TODO borrar
+
+                    EquityViewHolder equityViewHolder = (EquityViewHolder) viewHolder;
+
+                    final DatabaseReference equityRef = mDatabase.child("equity").child(equityViewHolder.equity.getEquity());
+
+                    equityRef.child(getUid()).removeValue();
+
                 } else {
+
                     EquityViewHolder holder = (EquityViewHolder)viewHolder;
 
                     Intent intent = new Intent(StockListingActivity.this , BuyEquity.class);
@@ -266,6 +217,9 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
                     intent.putExtra(BuyEquity.EQUITY_TO_BUY,holder.equity);
 
                     startActivity(intent);
+
+                    mAdapter.notifyDataSetChanged();
+                    mAdapterFav.notifyDataSetChanged();
 
                 }
 
@@ -305,6 +259,10 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
 
         itemTouchHelperFav.attachToRecyclerView(mRecyclerFav);
 
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+
+        itemTouchHelper.attachToRecyclerView(mRecycler);
+
         //Menu
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -323,51 +281,9 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
 
         if(FirebaseAuth.getInstance().getCurrentUser()!= null && FirebaseAuth.getInstance().getCurrentUser().getEmail()!=null){
             userLoggedEmail.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
-
         }
 
     }
-
-    // [START post_stars_transaction]
-    public void onStarClicked(DatabaseReference postRef, final int index) {
-        postRef.runTransaction(new Transaction.Handler() {
-            @Override
-            public Transaction.Result doTransaction(MutableData mutableData) {
-                Equity p = mutableData.getValue(Equity.class);
-                if (p == null) {
-                    return Transaction.success(mutableData);
-                }
-
-                if (p.getStars().containsKey(getUid())) {
-                    // Unstar the post and remove self from stars
-                    p.setStarCount(p.getStarCount() - 1);
-                    p.getStars().remove(getUid());
-
-                } else {
-                    // Star the post and add self to stars
-                    p.setStarCount(p.getStarCount() + 1);
-                    p.getStars().put(getUid(), true);
-                }
-
-                // Set value and report transaction success
-                mutableData.setValue(p);
-
-                return Transaction.success(mutableData);
-            }
-
-            @Override
-            public void onComplete(DatabaseError databaseError, boolean b,
-                                   DataSnapshot dataSnapshot) {
-                // Transaction completed
-                /*Toast.makeText(StockListingActivity.this, "postTransaction:onComplete:" + databaseError,
-                        Toast.LENGTH_SHORT).show();*/
-
-                mRecycler.invalidate();
-                mRecyclerFav.invalidate();
-            }
-        });
-    }
-    // [END post_stars_transaction]
 
     @Override
     public void onDestroy() {
@@ -382,19 +298,18 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
     }
 
     public Query getQuery(DatabaseReference databaseReference, boolean stared){
-        Query recentPostsQuery = null;
+        Query recentPostsQuery;
 
         if(stared){
-            recentPostsQuery = databaseReference.child("equity").orderByChild("starCount").startAt(1).endAt(4);
+            recentPostsQuery = databaseReference.child("equity").orderByChild(getUid()).startAt(true).endAt(true);
         }else{
-            recentPostsQuery = databaseReference.child("equity").orderByChild("starCount").startAt(0).endAt(0);
+            recentPostsQuery = databaseReference.child("equity").orderByChild(getUid()).startAt(false).endAt(false);
         }
 
         return recentPostsQuery;
     }
 
-    public void newEquity(final String equity){
-        final String value = "1400";
+    public void searchEquity(final String equity){
 
         final String userId = getUid();
 
@@ -402,23 +317,16 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        // Get user value
                         User user = dataSnapshot.getValue(User.class);
 
-                        // [START_EXCLUDE]
                         if (user == null) {
-                            // User is null, error out
                             Toast.makeText(StockListingActivity.this,
                                     "Error: could not fetch user.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            // Write new post
-                            writeNewEquity(equity, value);
+                            writeNewEquity(equity);
                         }
 
-                        // Finish this Activity, back to the stream
-                        //finish();
-                        // [END_EXCLUDE]
                     }
 
                     @Override
@@ -428,24 +336,29 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
                                 Toast.LENGTH_SHORT).show();*/
                     }
                 });
-        // [END single_value_read]
 
     }
 
-    // [START write_fan_out]
-    public void writeNewEquity(String equity, String value) {
-        // Create new post at /user-posts/$userid/$postid and at
-        // /posts/$postid simultaneously
-        String key = mDatabase.child("equity").push().getKey();
-        Equity post = new Equity(equity, value, "0.25","10");
-        Map<String, Object> equityValues = post.toMap();
+    public void writeNewEquity(String equity) {
 
-        Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/equity/" + key, equityValues);
+        final DatabaseReference equityRef = mDatabase.child("equity").child(equity);
 
-        mDatabase.updateChildren(childUpdates);
+        equityRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    equityRef.child(getUid()).setValue(false);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
-    // [END write_fan_out]
 
     @Override
     public void onBackPressed() {

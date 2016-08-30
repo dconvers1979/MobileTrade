@@ -34,6 +34,7 @@ public class EquityViewHolder extends RecyclerView.ViewHolder {
 
     public void bindToEquity(Equity equity, View.OnClickListener starClickListener) {
         NumberFormat format = NumberFormat.getCurrencyInstance();
+
         this.equity = equity;
 
         equityView.setText(equity.getEquity());

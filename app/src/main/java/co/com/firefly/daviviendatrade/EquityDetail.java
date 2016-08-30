@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import org.achartengine.ChartFactory;
@@ -46,6 +47,8 @@ public class EquityDetail extends AppCompatActivity {
     private RecyclerView.Adapter mAdapterNews;
     private RecyclerView.LayoutManager mLayoutManagerNews;
 
+    private ScrollView scroll;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,8 @@ public class EquityDetail extends AppCompatActivity {
         chartView = (LinearLayout) findViewById(R.id.equityChart);
 
         buyEquity = (ImageButton) findViewById(R.id.detail_equity_buy);
+
+        scroll = (ScrollView) findViewById(R.id.scroll_detail);
 
         buyEquity.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,6 +109,17 @@ public class EquityDetail extends AppCompatActivity {
         mRecyclerViewNews.setAdapter(mAdapterNews);
 
         openChart(raising);
+
+        scroll.scrollTo(0,0);
+
+        ImageButton returnButton = (ImageButton) findViewById(R.id.return_button);
+        returnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(EquityDetail.this, StockListingActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 

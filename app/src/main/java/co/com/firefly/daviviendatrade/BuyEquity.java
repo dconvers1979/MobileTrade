@@ -109,6 +109,15 @@ public class BuyEquity extends AppCompatActivity {
 
             }
         });
+
+        ImageButton returnButton = (ImageButton) findViewById(R.id.return_button);
+        returnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(BuyEquity.this, StockListingActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     public void calculateTotal(){
