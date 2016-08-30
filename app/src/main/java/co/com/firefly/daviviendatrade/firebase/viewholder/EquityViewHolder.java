@@ -18,7 +18,7 @@ public class EquityViewHolder extends RecyclerView.ViewHolder {
     public TextView equityView;
     public TextView equityValueView;
     public ImageView starView;
-    public TextView numStarsView;
+    public TextView spreadView;
     public View view;
     public Equity equity;
 
@@ -29,7 +29,7 @@ public class EquityViewHolder extends RecyclerView.ViewHolder {
         equityView = (TextView) itemView.findViewById(R.id.equity_name);
         equityValueView = (TextView) itemView.findViewById(R.id.equity_value);
         starView = (ImageView) itemView.findViewById(R.id.star);
-        numStarsView = (TextView) itemView.findViewById(R.id.post_num_stars);
+        spreadView = (TextView) itemView.findViewById(R.id.equity_spread);
     }
 
     public void bindToEquity(Equity equity, View.OnClickListener starClickListener) {
@@ -38,7 +38,7 @@ public class EquityViewHolder extends RecyclerView.ViewHolder {
         this.equity = equity;
 
         equityView.setText(equity.getEquity());
-        numStarsView.setText(String.valueOf(equity.getStarCount()));
+        spreadView.setText(equity.getSpread()+"%");
 
         starView.setOnClickListener(starClickListener);
         try{

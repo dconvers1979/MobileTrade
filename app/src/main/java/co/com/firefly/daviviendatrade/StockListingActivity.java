@@ -127,8 +127,12 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
 
                 if (model.getSpread()!=null && model.getSpread().contains("-")){
                     viewHolder.equityValueView.setTextColor(getResources().getColor(R.color.red));
+                    viewHolder.spreadView.setTextColor(getResources().getColor(R.color.red));
+                    viewHolder.equityView.setTextColor(getResources().getColor(R.color.red));
                 } else {
                     viewHolder.equityValueView.setTextColor(getResources().getColor(R.color.green));
+                    viewHolder.spreadView.setTextColor(getResources().getColor(R.color.green));
+                    viewHolder.equityView.setTextColor(getResources().getColor(R.color.green));
                 }
 
                 viewHolder.bindToEquity(model, new View.OnClickListener() {
@@ -174,8 +178,12 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
 
                 if (model.getSpread()!=null && model.getSpread().contains("-")){
                     viewHolder.equityValueView.setTextColor(getResources().getColor(R.color.red));
+                    viewHolder.spreadView.setTextColor(getResources().getColor(R.color.red));
+                    viewHolder.equityView.setTextColor(getResources().getColor(R.color.red));
                 } else {
                     viewHolder.equityValueView.setTextColor(getResources().getColor(R.color.green));
+                    viewHolder.spreadView.setTextColor(getResources().getColor(R.color.green));
+                    viewHolder.equityView.setTextColor(getResources().getColor(R.color.green));
                 }
 
                 viewHolder.bindToEquity(model, new View.OnClickListener() {

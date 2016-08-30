@@ -22,14 +22,6 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:orientation="horizontal">
-            <TextView
-                android:id="@+id/post_num_stars"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:visibility="gone"
-                tools:text="7" />
 
             <TextView
                 android:id="@+id/equity_name"
@@ -41,6 +33,14 @@
 
             <TextView
                 android:id="@+id/equity_value"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                tools:text="7" />
+
+            <TextView
+                android:id="@+id/equity_spread"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
