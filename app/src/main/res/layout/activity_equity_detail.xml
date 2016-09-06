@@ -55,7 +55,7 @@
         <RelativeLayout
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <GridLayout
                 android:foregroundGravity="center_horizontal"
@@ -148,11 +148,12 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/equityNewsFeed"
-                    android:scrollbars="vertical"
                     android:gravity="center_horizontal"
                     android:layout_gravity="center_horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    tools:listitem="@layout/item_news"/>
+
 
             </GridLayout>
 

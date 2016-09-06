@@ -13,11 +13,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import co.com.firefly.daviviendatrade.firebase.model.User;
-import co.com.firefly.daviviendatrade.util.FiretradeException;
 
-/**
- * Created by toshiba on 28/06/2016.
- */
 public class FirebaseReference {
 
     private static FirebaseReference instance = new FirebaseReference();

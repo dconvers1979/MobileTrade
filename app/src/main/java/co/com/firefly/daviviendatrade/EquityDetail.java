@@ -3,17 +3,20 @@ package co.com.firefly.daviviendatrade;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
@@ -25,7 +28,8 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
 import co.com.firefly.daviviendatrade.firebase.model.Equity;
-import co.com.firefly.daviviendatrade.newsfeed.NewsfeedAdapter;
+import co.com.firefly.daviviendatrade.firebase.model.EquityNews;
+import co.com.firefly.daviviendatrade.firebase.viewholder.NewsfeedViewHolder;
 
 public class EquityDetail extends AppCompatActivity {
 
@@ -36,23 +40,24 @@ public class EquityDetail extends AppCompatActivity {
             "Jul", "Aug" , "Sep", "Oct", "Nov", "Dec"
     };
 
-    private TextView equityNameDetail;
+
     private Equity equity;
     private LinearLayout chartView;
-    private GraphicalView mChartView;
-
-    private ImageButton buyEquity;
-
-    private RecyclerView mRecyclerViewNews;
-    private RecyclerView.Adapter mAdapterNews;
-    private RecyclerView.LayoutManager mLayoutManagerNews;
-
-    private ScrollView scroll;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        equity = null;
+
+        TextView equityNameDetail;
+        ImageButton buyEquity;
+        final LinearLayoutManager mManager;
+        ScrollView scroll;
+        final RecyclerView mRecycler;
+        final FirebaseRecyclerAdapter<EquityNews, NewsfeedViewHolder> mAdapter;
+        DatabaseReference mDatabase;
+
         setContentView(R.layout.activity_equity_detail);
 
         equityNameDetail = (TextView) findViewById(R.id.equityNameDetail);
@@ -61,6 +66,16 @@ public class EquityDetail extends AppCompatActivity {
         buyEquity = (ImageButton) findViewById(R.id.detail_equity_buy);
 
         scroll = (ScrollView) findViewById(R.id.scroll_detail);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            this.equity = (Equity) extras.getSerializable(EQUITY_NAME);
+            equityNameDetail.setText(this.equity.getEquity()+" - "+this.equity.getValue());
+        }else{
+            finish();
+        }
 
         buyEquity.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,41 +89,53 @@ public class EquityDetail extends AppCompatActivity {
             }
         });
 
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            this.equity = (Equity) extras.getSerializable(EQUITY_NAME);
-            equityNameDetail.setText(this.equity.getEquity()+" - "+this.equity.getValue());
-        }else{
-            finish();
-        }
-
         boolean raising = true;
 
         if (this.equity.getSpread()!=null && this.equity.getSpread().contains("-")){
             raising=false;
         }
 
-        mRecyclerViewNews = (RecyclerView) findViewById(R.id.equityNewsFeed);
+        mRecycler = (RecyclerView) findViewById(R.id.equityNewsFeed);
+        mRecycler.setHasFixedSize(true);
 
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        mRecyclerViewNews.setHasFixedSize(true);
+        mManager = new LinearLayoutManager(this);
+        mManager.setReverseLayout(true);
+        mManager.setStackFromEnd(true);
 
-        // use a linear layout manager
-        mLayoutManagerNews = new LinearLayoutManager(this);
-        mRecyclerViewNews.setLayoutManager(mLayoutManagerNews);
 
-        String news[] = {getResources().getString(R.string.dummy_news_1),
-                getResources().getString(R.string.dummy_news_2),
-                getResources().getString(R.string.dummy_news_3),
-                getResources().getString(R.string.dummy_news_4),
-                getResources().getString(R.string.dummy_news_5)};//TODO hardcoded news
+        Query newsQuery = getQuery(mDatabase);
+        mAdapter = new FirebaseRecyclerAdapter<EquityNews, NewsfeedViewHolder>(EquityNews.class, R.layout.item_news,
+                NewsfeedViewHolder.class, newsQuery) {
 
-        // specify an adapter (see also next example)
-        mAdapterNews = new NewsfeedAdapter(news);
-        mRecyclerViewNews.setAdapter(mAdapterNews);
+            @Override
+            protected void populateViewHolder(final NewsfeedViewHolder viewHolder, final EquityNews model, final int position) {
+                //final DatabaseReference postRef = getRef(position);
+                
+                viewHolder.bindToNews(model);
 
-        openChart(raising);
+            }
+        };
+
+        mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                int friendlyMessageCount = mAdapter.getItemCount();
+                int lastVisiblePosition =
+                        mManager.findLastCompletelyVisibleItemPosition();
+                // If the recycler view is initially being loaded or the
+                // user is at the bottom of the list, scroll to the bottom
+                // of the list to show the newly added message.
+                if (lastVisiblePosition == -1 ||
+                        (positionStart >= (friendlyMessageCount - 1) &&
+                                lastVisiblePosition == (positionStart - 1))) {
+                    mRecycler.scrollToPosition(positionStart);
+                }
+            }
+        });
+
+        mRecycler.setLayoutManager(mManager);
+        mRecycler.setAdapter(mAdapter);
 
         scroll.scrollTo(0,0);
 
@@ -121,11 +148,38 @@ public class EquityDetail extends AppCompatActivity {
             }
         });
 
+        openChart(raising);
+
+    }
+
+    /*@Override
+    public void onBackPressed() {
+        this.finish();
+        mAdapter=null;
+        mRecycler =null;
+        super.onBackPressed();
+    }*/
+
+    /*@Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mAdapter != null) {
+            mAdapter.cleanup();
+        }
+    }*/
+
+    public Query getQuery(DatabaseReference databaseReference){
+        Query recentNewsQuery;
+
+        recentNewsQuery = databaseReference.getRoot().child("news").child(this.equity.getEquity()).orderByChild("date");
+
+        return recentNewsQuery;
     }
 
     private void openChart(boolean raising){
 
-        int baseColor = 0;
+        int baseColor;
+        GraphicalView mChartView;
 
         if(raising){
             baseColor = Color.GREEN;

@@ -19,6 +19,7 @@ public class Equity implements Serializable{
     private int starCount = 0;
     private String percentaje;
     private String spread;
+
     public Equity(){
 
     }
