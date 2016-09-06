@@ -100,7 +100,6 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
         mManager = new LinearLayoutManager(this);
         mManager.setReverseLayout(true);
         mManager.setStackFromEnd(true);
-        mRecycler.setLayoutManager(mManager);
 
         // Set up FirebaseRecyclerAdapter with the Query
         Query postsQuery = getQuery(mDatabase, false);
@@ -143,6 +142,26 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
                 });
             }
         };
+
+        mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                int friendlyMessageCount = mAdapter.getItemCount();
+                int lastVisiblePosition =
+                        mManager.findLastCompletelyVisibleItemPosition();
+                // If the recycler view is initially being loaded or the
+                // user is at the bottom of the list, scroll to the bottom
+                // of the list to show the newly added message.
+                if (lastVisiblePosition == -1 ||
+                        (positionStart >= (friendlyMessageCount - 1) &&
+                                lastVisiblePosition == (positionStart - 1))) {
+                    mRecycler.scrollToPosition(positionStart);
+                }
+            }
+        });
+
+        mRecycler.setLayoutManager(mManager);
         mRecycler.setAdapter(mAdapter);
 
         mRecyclerFav = (RecyclerView) findViewById(R.id.favorites_list);
@@ -151,7 +170,6 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
         mManagerFav = new LinearLayoutManager(this);
         mManagerFav.setReverseLayout(true);
         mManagerFav.setStackFromEnd(true);
-        mRecyclerFav.setLayoutManager(mManagerFav);
 
         Query postsQueryFav = getQuery(mDatabase, true);
 
@@ -193,6 +211,26 @@ public class StockListingActivity extends AppCompatActivity implements Navigatio
                 });
             }
         };
+
+        mAdapterFav.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                int friendlyMessageCount = mAdapterFav.getItemCount();
+                int lastVisiblePosition =
+                        mManagerFav.findLastCompletelyVisibleItemPosition();
+                // If the recycler view is initially being loaded or the
+                // user is at the bottom of the list, scroll to the bottom
+                // of the list to show the newly added message.
+                if (lastVisiblePosition == -1 ||
+                        (positionStart >= (friendlyMessageCount - 1) &&
+                                lastVisiblePosition == (positionStart - 1))) {
+                    mRecyclerFav.scrollToPosition(positionStart);
+                }
+            }
+        });
+
+        mRecyclerFav.setLayoutManager(mManagerFav);
         mRecyclerFav.setAdapter(mAdapterFav);
 
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT ) {
